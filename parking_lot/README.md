@@ -1,35 +1,45 @@
 Parking Lot Automation System (TypeScript)
 
 Overview
-- Simple automated ticketing for a parking lot with sizes S/M/L.
-- Issues tickets, allocates best-fit slots, computes fees on exit.
-- Includes a minimal CLI and unit tests.
+- Simple automated ticketing system for a parking lot.
+- Supports file-based input and interactive shell.
+- Clean TypeScript code with unit tests.
 
-Architecture
-- Domain: `src/domain/types.ts`
-- Services: `src/services/ParkingLot.ts`, `src/services/FeeCalculator.ts`
-- CLI: `src/cli.ts`
+Key Commands (as per spec)
+- `create_parking_lot <number_of_slots>`
+- `park <registration_number> <car_color>`
+- `leave <slot_number>`
+- `status`
+- `registration_numbers_for_cars_with_colour <color>`
+- `slot_numbers_for_cars_with_colour <color>`
+- `slot_number_for_registration_number <reg_number>`
+
+Project Structure
+- CLI entry: `bin/parking_lot`
+- Setup script: `bin/setup`
+- App command handler: `src/app.ts`
+- Simple domain model: `src/domain/simple.ts`
+- Additional services (not used by CLI): `src/services/*`
 - Tests: `test/parkingLot.spec.ts` (Vitest)
+- Sample input: `file_inputs.txt`
 
-Fee Policy
-- Default: round up to next hour; first hour $10, then $5/hour.
-- You can swap in `ConfigurableFeePolicy` for different rules.
-
-CLI Usage
-- Initialize lot: `node dist/cli.js init <S> <M> <L>`
-- Park vehicle: `node dist/cli.js park <plate> <S|M|L>`
-- Leave: `node dist/cli.js leave <ticketId>`
-- Status: `node dist/cli.js status`
-- Ticket info: `node dist/cli.js ticket <ticketId>`
+Setup & Run
+- Setup (installs, builds, tests): `bin/setup`
+- File mode: `bin/parking_lot file_inputs.txt`
+- Interactive mode: `bin/parking_lot` (type commands, end with `quit`)
 
 Local Development
 1) Install deps: `npm install`
 2) Build: `npm run build`
-3) Run CLI: `npm start -- <command>` (see above)
-4) Tests: `npm test`
+3) Tests: `npm test`
+4) Run (file): `bin/parking_lot file_inputs.txt`
+5) Run (interactive): `bin/parking_lot`
 
 Docker
 - Build image: `docker build -t parking-lot .`
-- Run tests: `docker run --rm parking-lot npm test`
-- Run CLI: `docker run --rm -it parking-lot node dist/cli.js help`
+- Run with file: `docker run --rm -it -v "$PWD/file_inputs.txt:/app/file_inputs.txt:ro" parking-lot file_inputs.txt`
+- Run interactively: `docker run --rm -it parking-lot`
+- Notes:
+  - The Docker build runs tests; it fails if tests fail.
+  - Final image contains only runtime artifacts (`dist/` + `bin/`).
 

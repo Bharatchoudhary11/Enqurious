@@ -7,8 +7,12 @@ export default defineConfig({
     maxThreads: 1,
     minThreads: 1,
     reporters: 'default',
+    include: ['test/**/*.{test,spec}.ts'],
     exclude: [
-      'parking_lot/**' // exclude nested subproject, it uses its own test runner
-    ]
-  }
+      'node_modules/**',
+      'dist/**',
+      'coverage/**',
+      '.git/**',
+    ],
+  },
 });
