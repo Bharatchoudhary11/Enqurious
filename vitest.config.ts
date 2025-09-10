@@ -6,7 +6,9 @@ export default defineConfig({
     pool: 'forks',
     maxThreads: 1,
     minThreads: 1,
-    reporters: 'default'
+    reporters: 'default',
+    exclude: [
+      'parking_lot/**' // exclude nested subproject, it uses its own test runner
+    ]
   }
 });
-
