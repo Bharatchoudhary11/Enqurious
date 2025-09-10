@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."/parking_lot
+echo "Installing dependencies..."
+npm ci --include=dev || npm install --include=dev
+echo "Building..."
+npm run build
+echo "Running tests..."
+npm test
+echo "Done."
+
