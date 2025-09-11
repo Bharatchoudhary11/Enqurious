@@ -10,7 +10,12 @@ export class App {
 
     switch (cmd) {
       case 'create_parking_lot': {
-        const n = parseInt(parts[1], 10);
+        const nRaw = parts[1];
+        if (nRaw === undefined) return 'Invalid command';
+        const n = Number(nRaw);
+        if (!Number.isInteger(n)) return 'Invalid command';
+        if (n === 0) return 'Required a positive number of slots';
+        if (n < 0) return 'Invalid command';
         this.lot.create(n);
         return `Created a parking lot with ${n} slots`;
       }
@@ -23,7 +28,9 @@ export class App {
       }
       case 'leave': {
         if (!this.lot.isCreated()) return 'Please create a parking lot first';
-        const slot = parseInt(parts[1], 10);
+        const slotRaw = parts[1];
+        const slot = Number(slotRaw);
+        if (!Number.isInteger(slot) || slot <= 0) return 'Invalid slot number';
         if (this.lot.leave(slot)) return `Slot number ${slot} is free`;
         return 'Invalid slot number';
       }
@@ -60,4 +67,3 @@ export class App {
     }
   }
 }
-

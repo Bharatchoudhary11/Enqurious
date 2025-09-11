@@ -37,6 +37,7 @@ export class ParkingLot {
   }
 
   leave(slotNumber: number): boolean {
+    if (!Number.isInteger(slotNumber)) return false;
     const idx = slotNumber - 1;
     if (idx < 0 || idx >= this.slots.length) return false;
     if (this.slots[idx] === null) return false;
@@ -70,4 +71,3 @@ export class ParkingLot {
     return row ? row.slot : null;
   }
 }
-
